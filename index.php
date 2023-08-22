@@ -11,19 +11,21 @@ License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 
-function get_featured_image_url($post_id)
-{
+function get_featured_image_url($post_id) {
   $image_url = '';
   $thumbnail_id = get_post_thumbnail_id($post_id);
+
   if ($thumbnail_id) {
     $image_url = wp_get_attachment_url($thumbnail_id);
+
   }
+
   return $image_url;
+
 }
 
 
-function custom_feed_template()
-{
+function custom_feed_template() {
   // Define o tipo de conteúdo para o feed
   header('Content-Type: application/rss+xml; charset=UTF-8');
 
@@ -38,12 +40,12 @@ function custom_feed_template()
   echo '<link>' . get_bloginfo('url') . '</link>';
   echo '<description>Meu Feed Personalizado</description>';
 
-
   // Query personalizada para obter os posts desejados
   $args = array(
     'post_type' => 'post',
     'posts_per_page' => 30,
   );
+
   $query = new WP_Query($args);
 
   // Loop através dos posts
@@ -82,7 +84,9 @@ function custom_feed_template()
       echo '' . htmlspecialchars(get_the_content(), ENT_XML1) . '';
       echo ']]></content:encoded>';
       echo '</item>';
+
     }
+
   }
 
   // Finaliza o feed
@@ -99,9 +103,9 @@ function custom_feed_template()
 add_action('do_feed_custom', 'custom_feed_template');
 
 // Registra o feed personalizado
-function register_custom_feed()
-{
-  add_feed('rssr7', 'custom_feed_template');
+function register_custom_feed() {
+  add_feed('rssr7', 'custom_feed_template'); // Altere rssr7 para o nome do feed desejado
+
 }
 
 add_action('init', 'register_custom_feed');
